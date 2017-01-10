@@ -1,19 +1,18 @@
 console.log( 'server.js' );
 
-var express = require( 'express' );
+const express = require( 'express' );
 
 // logging
-var logger = require( './logger' );
-var morgan = require( 'morgan' );
+const logger = require( './logger' );
+const morgan = require( 'morgan' );
 
 // request handling
-var expressRequestId = require( 'express-request-id' );
-var bodyParser = require( 'body-parser' );
-var cors = require( 'cors' );
-
+const expressRequestId = require( 'express-request-id' );
+const bodyParser = require( 'body-parser' );
+const cors = require( 'cors' );
 
 // create express application 
-var app = express();
+const app = express();
 
 app.use( express.static( __dirname + '/public' ) );
 
@@ -25,7 +24,6 @@ app.use( express.static( __dirname + '/public' ) );
 // to log every request to the console.
 app.use( morgan( "combined", { 'stream': logger.stream } ) );
 app.use( morgan( 'dev' ) );
-
 
 // 2. Configure the request handling
 //
@@ -39,9 +37,7 @@ app.use( bodyParser.json( { type: 'application/vnd.api+json' } ) );
 app.use( cors() );
 app.use( expressRequestId() );
 
-
 // 3. set up the routes
 app.use( require( './routes') );
-
 
 app.listen( 8081 );

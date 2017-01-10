@@ -1,8 +1,8 @@
 // database
-var mongoose = require( 'mongoose' );
-var bluebird = require( 'bluebird' );
-var logger = require( '../logger' );
-var config = require( '../config' );
+const mongoose = require( 'mongoose' );
+const bluebird = require( 'bluebird' );
+const logger = require( '../logger' );
+const config = require( '../config' );
 
 
 mongoose.Promise = bluebird;

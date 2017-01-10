@@ -2,28 +2,20 @@ const express = require( 'express' );
 const router = express.Router();
 const Card = require( '../data/card' );
 const logger = require( '../logger' );
-
+const response = require( './response' );
 // Resource: /v1/cards
 
 router.get( '/', ( req, res ) => {
-    logger.info( `[${req.id}] GET ${req.originalUrl} - Started` );
+    logger.logRequestInfo( req, 'Started' );
 
     Card
       .find()
-      .then( allCards => {
-          logger.info( `[${req.id}] GET ${req.originalUrl} - Completed` );
-
-          res.json( allCards );
-      })
-      .catch( error => {
-          logger.error( `[${req.id}] GET ${req.originUrl} - Error, ${error}` );
-
-          res.status( 500 ).send( error );
-      });
+      .then( allCards => response.success( req, res, allCards ) )
+      .catch( error => response.error( req, res, error.message ) );
 })
 
 router.post( '/', ( req, res ) => {
-    logger.info( `[${req.id}] POST ${req.originalUrl} - Started` );
+    logger.logRequestInfo( req, 'Started' );
 
     let card 
           = new Card({
@@ -34,20 +26,11 @@ router.post( '/', ( req, res ) => {
             });
 
     // todo: distinguish be server and client errors, this can be done via promises or monads
- 
     card
       .save()
-      .then( newCard => {
-          logger.info( `[${req.id}] POST ${req.originalUrl} - Started` );
+      .then( newCard => response.created( req, res, newCard, "" ) )
+      .catch( error => response.error( req, res, error.message ) );
 
-          // todo: put the absolute url of the resource into the location header field.
-          res.status( 201 ).json( newCard );
-      })
-      .catch( error => {
-          logger.error( `[${req.id}] POST ${req.originUrl} - Error, ${error}` );
-
-          res.status( 500 ).send( error );
-      });
 })
 
 module.exports = router;

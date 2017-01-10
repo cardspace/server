@@ -2,115 +2,67 @@ const express = require( 'express' );
 const router = express.Router();
 const Card = require( '../data/card' );
 const logger = require( '../logger' );
+const response = require( './response' );
 // resource: /v1/card  get, put, delete
 
 router.get( '/:id', ( req, res ) => {
-    logger.info( `[${req.id}] GET ${req.originalUrl} - Started` );
+    logger.logRequestInfo( req, 'Started' );
 
     // todo: turn this into a utility function
 
     // mongoose will throw a CastError if it is not
     // a valid error so we need 
     if ( !req.params.id.match(/^[0-9a-fA-F]{24}$/) ) {
-        logger.info( `[${req.id}] GET ${req.originalUrl} - Not Found` );
+        response.notFound( req, res );
 
-        res.status( 404 ).send();
+    } else {
+
+        Card
+         .findById( req.params.id )
+         .then( card => response.successOrNotFound( req, res, card ) )
+         .catch( error => response.error( req, res, error.message ) );
+        
     }
-
-    Card
-      .findById( req.params.id )
-      .then( card => {
-
-          if ( card ) {
-              logger.info( `[${req.id}] GET ${req.originalUrl} - Completed` );
-
-              res.status( 200 ).json( card );
-          
-           } else {
-              logger.info( `[${req.id}] GET ${req.originalUrl} - Not Found` );
-
-              res.status( 404 ).send();
-           }
-       })
-      .catch( error => {
-          logger.info( `[${req.id}] GET ${req.originalUrl} - Error, ${error}` );
-
-          res.status( 500 ).send( error );
-      });
 
 });
 
 router.put( '/:id', ( req, res ) => {
-    logger.info( `[${req.id}] PUT ${req.originalUrl} - Started` );
+    logger.logRequestInfo( req, 'Started' );
 
     if ( !req.params.id.match(/^[0-9a-fA-F]{24}$/) ) {
-        logger.info( `[${req.id}] PUT ${req.originalUrl} - Not Found` );
-
-        res.status( 404 ).send();
+        response.notFound( req, res );
 
     } else {
 
-    var update 
-          = {
-              title: req.body.title,
-              description: req.body.description,
-              url: req.body.url
-            };
+        var update 
+            = {
+                title: req.body.title,
+                description: req.body.description,
+                url: req.body.url
+                };
 
-    Card
-      .findByIdAndUpdate( req.params.id, update )
-      .then( card => {
-
-          if ( card ) {
-              logger.info( `[${req.id}] PUT ${req.originalUrl} - Completed` );
-
-              res.status( 200 ).send();
-          
-           } else {
-               logger.info( `[${req.id}] PUT ${req.originalUrl} - Not Found` );
-
-               res.status( 404 ).send();
-           }
-       })
-      .catch( error => {
-          logger.info( `[${req.id}] PUT ${req.originalUrl} - Error, ${error}` );
-
-          res.status( 500 ).send( error );
-      });
+        Card
+        .findByIdAndUpdate( req.params.id, update )
+        .then( card => response.successOrNotFound( req, res, card ) )    
+        .catch( error => response.error( req, res, error.message ) );
+        
     }
 });
 
-
-
 router.delete( '/:id', ( req, res ) => {
-    logger.info( `[${req.id}] DELETE ${req.originalUrl} - Started` );
+    logger.logRequestInfo( req, 'Started' );
 
     if ( !req.params.id.match(/^[0-9a-fA-F]{24}$/) ) {
-        logger.info( `[${req.id}] DELETE ${req.originalUrl} - Not Found` );
+        response.notFound( req, res );
 
-        res.status( 404 ).send();
+    } else {
+
+        Card
+          .findByIdAndRemove( req.params.id )
+          .then( card => response.successOrNotFound( req, res, card ) )
+          .catch( error => response.error( req, res, error.message ) );
+
     }
-
-    Card
-      .findByIdAndRemove( req.params.id )
-      .then( card => {
-
-          if ( card ) {
-              logger.info( `[${req.id}] DELETE ${req.originalUrl} - Completed` );
-
-              res.status( 200 ).send();
-          
-           } else {
-               logger.info( `[${req.id}] DELETE ${req.originalUrl} - Not Found` );
-
-               res.status( 404 ).send();
-           }
-       })
-      .catch( error => {
-          logger.info( `[${req.id}] DELETE ${req.originalUrl} - Error, ${error}` );
-
-          res.status( 500 ).send( error );
-      });
 
 });
 
