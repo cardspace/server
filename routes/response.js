@@ -12,7 +12,7 @@ module.exports = {
         logger.logRequestInfo( req, 'Completed' );
 
         // todo: set the header to the url of the create 
-        res.status( 201 ).json( data );
+        res.status( 201 ).set('Location', createdResourceUrl ).json( data );
     },
 
     notFound( req, res ) {
@@ -36,6 +36,17 @@ module.exports = {
         logger.logRequestError( req, message );
 
         res.status( 500 ).json({ id : req.id, message: 'An internal error has occured, look for the id in the log.'} );
+    },
+
+    invalidIdOrError( req, res, error ) {
+
+        if ( error.name == 'CastError' ) {
+            this.notFound( req, res );
+        
+        } else {
+            this.error( req, res, error.message )
+        }
+
     }
     
 }

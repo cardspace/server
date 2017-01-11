@@ -2,13 +2,10 @@
 const mongoose = require( 'mongoose' );
 const bluebird = require( 'bluebird' );
 const logger = require( '../logger' );
-const config = require( '../config' );
-
 
 mongoose.Promise = bluebird;
 
-
-var db = mongoose.createConnection( config.mongodb.connectionString );
+var db = mongoose.createConnection( process.env.CARDSPACE_MONGODB_CONNECTIONSTRING );
 
 // When successfully connected
 db.on( 'connected', () => {  

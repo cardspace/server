@@ -1,3 +1,6 @@
+# Development environment settings
+.env
+
 # Logs
 logs
 *.log

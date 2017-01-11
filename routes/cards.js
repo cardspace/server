@@ -25,10 +25,9 @@ router.post( '/', ( req, res ) => {
               dateAdded: Date.now()
             });
 
-    // todo: distinguish be server and client errors, this can be done via promises or monads
     card
       .save()
-      .then( newCard => response.created( req, res, newCard, "" ) )
+      .then( newCard => response.created( req, res, newCard, `/v1/card/${newCard._id}` ) )
       .catch( error => response.error( req, res, error.message ) );
 
 })

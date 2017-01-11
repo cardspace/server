@@ -1,4 +1,5 @@
-console.log( 'server.js' );
+// Load environmnet variables from .env if there is one
+require('dotenv').config();
 
 const express = require( 'express' );
 
@@ -40,4 +41,14 @@ app.use( expressRequestId() );
 // 3. set up the routes
 app.use( require( './routes') );
 
-app.listen( 8081 );
+app.listen( normalizePort( process.env.CARDSPACE_LISTEN_PORT ) || 8081 );
+
+
+// Normalize a port into a number, string, or false.
+function normalizePort( val ) {
+  var port = parseInt( val, 10 );
+
+  return port >= 0
+       ? port
+       : false; 
+}

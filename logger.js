@@ -24,7 +24,7 @@ var logger = new winston.Logger({
     transports: [
         new winston.transports.File({
             level: 'info',
-            filename: './log/all-logs.log',
+            filename: process.env.CARDSPACE_LOGFILE,
             handleException: true,
             json: true,
             maxsize: 5242880, // 5MB
