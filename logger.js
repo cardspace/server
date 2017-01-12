@@ -47,8 +47,8 @@ logger.logRequestInfo = ( req, message ) => {
    logger.info( `[${req.id}] ${req.method} ${req.originalUrl} - ${message}` );
 }
 
-logger.logRequestError = ( req, message ) => {
-    logger.error( `[${req.id}] ${req.method} ${req.originalUrl} - Error, ${message}` );
+logger.logRequestError = ( req, error ) => {
+    logger.error( `[${req.id}] ${req.method} ${req.originalUrl} - Error, ${error}` );
 }
 
 module.exports = logger;

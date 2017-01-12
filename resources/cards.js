@@ -1,6 +1,6 @@
 const express = require( 'express' );
 const router = express.Router();
-const Card = require( '../data/card' );
+const Card = require( '../models/card' );
 const logger = require( '../logger' );
 const response = require( './response' );
 // Resource: /v1/cards
@@ -11,7 +11,7 @@ router.get( '/', ( req, res ) => {
     Card
       .find()
       .then( allCards => response.success( req, res, allCards ) )
-      .catch( error => response.error( req, res, error.message ) );
+      .catch( error => response.error( req, res, error ) );
 })
 
 router.post( '/', ( req, res ) => {
@@ -28,7 +28,7 @@ router.post( '/', ( req, res ) => {
     card
       .save()
       .then( newCard => response.created( req, res, newCard, `/v1/card/${newCard._id}` ) )
-      .catch( error => response.error( req, res, error.message ) );
+      .catch( error => response.error( req, res, error ) );
 
 })
 

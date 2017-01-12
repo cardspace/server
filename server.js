@@ -56,7 +56,7 @@ app.use( expressRequestId() );
 
 
 // 4. set up the routes
-app.use( require( './routes') );
+app.use( require( './resources') );
 
 
 app.listen( normalizePort( process.env.CARDSPACE_LISTEN_PORT ) || 8081 );

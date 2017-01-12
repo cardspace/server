@@ -1,6 +1,6 @@
 const express = require( 'express' );
 const router = express.Router();
-const Card = require( '../data/card' );
+const Card = require( '../models/card' );
 const logger = require( '../logger' );
 const response = require( './response' );
 // resource: /v1/card  get, put, delete

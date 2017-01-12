@@ -1,3 +1,4 @@
+const CardSpaceError = require( '../data/CardSpaceError' );
 const logger = require( '../logger' );
 
 module.exports = {
@@ -32,10 +33,15 @@ module.exports = {
 
     },
 
-    error( req, res, message ) {
-        logger.logRequestError( req, message );
+    error( req, res, error ) {
+        logger.logRequestError( req, error );
 
-        res.status( 500 ).json({ id : req.id, message: 'An internal error has occured, look for the id in the log.'} );
+        if ( error instanceof CardSpaceError ) {
+            res.status( 400 ).json( error );
+
+        } else {
+            res.status( 500 ).json({ id : req.id, message: 'An internal error has occured, look for the id in the log.'} );
+        }
     },
 
     invalidIdOrError( req, res, error ) {
@@ -44,7 +50,7 @@ module.exports = {
             this.notFound( req, res );
         
         } else {
-            this.error( req, res, error.message )
+            this.error( req, res, error )
         }
 
     }
