@@ -29,7 +29,7 @@ const normalisers = {
                 fieldError.errors.push( cardSpaceError );
             }
 
-            return new CardSpaceError( [], fieldErrors );
+            return new CardSpaceError( [], fieldErrors, error );
         }
     },
 
@@ -64,7 +64,7 @@ const normalisers = {
 
             fieldErrors[ fieldName ] = fieldError;
 
-            return new CardSpaceError( [], fieldErrors );
+            return new CardSpaceError( [], fieldErrors, error );
         }
     }
 }

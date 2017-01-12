@@ -4,12 +4,13 @@
 //   an error which makes it harder to find the origin of the problem.
 //   To mitigate that the error translations should be logged.
 
-function CardSpaceError( errors, fieldErrors  ) {
+function CardSpaceError( errors, fieldErrors, innerError ) {
     this.name = 'CardSpaceError';
     this.stack = (new Error()).stack;
 
     this.errors = errors;
     this.fieldErrors = fieldErrors;
+    this.innerError = innerError;
 }
 CardSpaceError.prototype = new Error();
 

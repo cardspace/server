@@ -37,7 +37,13 @@ module.exports = {
         logger.logRequestError( req, error );
 
         if ( error instanceof CardSpaceError ) {
-            res.status( 400 ).json( error );
+
+            var publicError = {
+                errors: error.errors,
+                fieldErrors: error.fieldErrors
+            }
+
+            res.status( 400 ).json( publicError );
 
         } else {
             res.status( 500 ).json({ id : req.id, message: 'An internal error has occured, look for the id in the log.'} );
