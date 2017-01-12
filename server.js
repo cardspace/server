@@ -3,6 +3,10 @@ require('dotenv').config();
 
 const express = require( 'express' );
 
+// security
+const jwt = require('express-jwt');
+
+
 // logging
 const logger = require( './logger' );
 const morgan = require( 'morgan' );
@@ -17,7 +21,18 @@ const app = express();
 
 app.use( express.static( __dirname + '/public' ) );
 
-// 1. Configure logging for the application
+
+// 1. Configure security for the application using OAuth2 via Auth0.com
+//
+// Secure all route  
+var jwtCheck = jwt({
+  secret: process.env.CARDSPACE_SECURITY_CLIENT_SECRET,
+  audience: process.env.CARDSPACE_SECURITY_CLIENT_ID
+});
+
+app.use( jwtCheck );
+
+// 2. Configure logging for the application
 //
 // http://tostring.it/2014/06/23/advanced-logging-with-nodejs/
 //
@@ -26,7 +41,8 @@ app.use( express.static( __dirname + '/public' ) );
 app.use( morgan( "combined", { 'stream': logger.stream } ) );
 app.use( morgan( 'dev' ) );
 
-// 2. Configure the request handling
+
+// 3. Configure the request handling
 //
 // add the body content to the req.body, parsing as json:
 //  * application/x-www-form-urlencoded
@@ -38,8 +54,10 @@ app.use( bodyParser.json( { type: 'application/vnd.api+json' } ) );
 app.use( cors() );
 app.use( expressRequestId() );
 
-// 3. set up the routes
+
+// 4. set up the routes
 app.use( require( './routes') );
+
 
 app.listen( normalizePort( process.env.CARDSPACE_LISTEN_PORT ) || 8081 );
 
