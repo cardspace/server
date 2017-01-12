@@ -59,7 +59,7 @@ app.use( expressRequestId() );
 app.use( require( './resources') );
 
 
-app.listen( normalizePort( process.env.CARDSPACE_LISTEN_PORT ) || 8081 );
+app.listen( normalizePort( process.env.PORT ) || normalizePort( process.env.CARDSPACE_LISTEN_PORT ) || 8081 );
 
 
 // Normalize a port into a number, string, or false.
