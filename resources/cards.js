@@ -4,12 +4,27 @@ const Card = require( '../models/card' );
 const logger = require( '../logger' );
 const response = require( './response' );
 // Resource: /v1/cards
+var createCardsDto = ( card ) => {
+
+  return {
+    id: card._id,
+    title: card.title,
+    description: card.description,
+    url: card.url,
+    dateAdded: card.dateAdded
+  }
+
+}
 
 router.get( '/', ( req, res ) => {
+
+    console.log( req.user );
+
     logger.logRequestInfo( req, 'Started' );
 
     Card
       .find()
+      .then( allCards => allCards.map( createCardsDto ) )
       .then( allCards => response.success( req, res, allCards ) )
       .catch( error => response.error( req, res, error ) );
 })
@@ -27,7 +42,8 @@ router.post( '/', ( req, res ) => {
 
     card
       .save()
-      .then( newCard => response.created( req, res, newCard, `/v1/card/${newCard._id}` ) )
+      .then( newCard => createCardsDto( newCard ) )
+      .then( newCard => response.created( req, res, newCard, `/v1/card/${newCard.id}` ) )
       .catch( error => response.error( req, res, error ) );
 
 })
