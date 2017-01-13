@@ -18,8 +18,6 @@ var createCardsDto = ( card ) => {
 
 router.get( '/', ( req, res ) => {
 
-    console.log( req.user );
-
     logger.logRequestInfo( req, 'Started' );
 
     Card

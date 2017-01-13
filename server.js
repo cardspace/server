@@ -5,7 +5,7 @@ const express = require( 'express' );
 
 // security
 const jwt = require('express-jwt');
-
+const requestUser = require( './security/request-user' );
 
 // logging
 const logger = require( './logger' );
@@ -31,6 +31,8 @@ var jwtCheck = jwt({
 });
 
 app.use( jwtCheck );
+app.use( requestUser() ); 
+
 
 // 2. Configure logging for the application
 //
