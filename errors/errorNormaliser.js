@@ -1,5 +1,5 @@
-const ValidationError = require( '../errors/ValidationError' );
-const errors = require( './errors' );
+const ValidationError = require( './ValidationError' );
+const errors = require( '../data/errors' );
 const mongoose = require( 'mongoose' );
 
 const mongooseErrorTranslationTable = {

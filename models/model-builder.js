@@ -1,5 +1,5 @@
 const db = require( '../data/db' );
-const errorNormaliser = require( '../data/errorNormaliser' );
+const errorNormaliser = require( '../errors/errorNormaliser' );
 
 //  normalise validation error 
 //
