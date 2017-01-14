@@ -1,5 +1,6 @@
 const CardSpaceError = require( '../data/CardSpaceError' );
 const logger = require( '../logger' );
+const PermissionError = require( '../errors/PermissionError' );
 
 module.exports = {
 
@@ -45,7 +46,12 @@ module.exports = {
 
             res.status( 400 ).json( publicError );
 
+        } else if ( error instanceof PermissionError ) {
+
+            res.status( 403 ).json( { id: req.id, errorCode: error.code, errorMessage: error.message } );
+
         } else {
+
             res.status( 500 ).json({ id : req.id, message: 'An internal error has occured, look for the id in the log.'} );
         }
     },

@@ -1,6 +1,5 @@
 const express = require( 'express' );
 const router = express.Router();
-const Card = require( '../models/card' ); 
 const addCardService = require( '../services/add-card-service' );
 const cardsOwnedByUserQuery = require( '../services/cards-owned-by-user-query' );
 const logger = require( '../logger' );
@@ -22,8 +21,6 @@ var createCardsDto = ( card ) => {
 router.get( '/', ( req, res ) => {
 
     logger.logRequestInfo( req, 'Started' );
-
-    console.log( req.user );
 
     // todo: move getting the id from the request to the middleware
     let request

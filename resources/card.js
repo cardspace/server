@@ -1,8 +1,10 @@
+const deleteCardService = require( '../services/delete-card-service' );
 const express = require( 'express' );
 const router = express.Router();
-const Card = require( '../models/card' );
+const cardQuery = require( '../services/card-query' ); 
 const logger = require( '../logger' );
 const response = require( './response' );
+const updateCardService = require( '../services/update-card-service' );
 // resource: /v1/card  get, put, delete
 
 var createCardDto = ( card ) => {
@@ -20,9 +22,16 @@ var createCardDto = ( card ) => {
 router.get( '/:id', ( req, res ) => {
     logger.logRequestInfo( req, 'Started' );
 
+    let request
+          = {
+              userId : req.user.id,
+              queryParams: {
+                cardId: req.params.id
+              } 
+            }
 
-    Card
-      .findById( req.params.id )
+    cardQuery
+      .getCard( request )
       .then( card => card ? createCardDto( card ) : card )
       .then( card => response.successOrNotFound( req, res, card ) )
       .catch( error => response.invalidIdOrError( req, res, error ) );
@@ -30,30 +39,42 @@ router.get( '/:id', ( req, res ) => {
 });
 
 router.put( '/:id', ( req, res ) => {
-    logger.logRequestInfo( req, 'Started' );
+  logger.logRequestInfo( req, 'Started' );
 
+  const request
+         = {
+             userId : req.user.id,
+             commandParams: {
+               cardId: req.params.id,
+               update: {
+                  title: req.body.title, 
+                  description: req.body.description, 
+                  url: req.body.url,
+                }
+             } 
+           }
 
-    var update 
-        = {
-            title: req.body.title,
-            description: req.body.description,
-            url: req.body.url
-            };
-
-    Card
-      .findByIdAndUpdate( req.params.id, update )
-      .then( card => card ? createCardDto( card ) : card )
-      .then( card => response.successOrNotFound( req, res, card ) )    
-      .catch( error => response.invalidIdOrError( req, res, error ) );
+  updateCardService
+    .updateCard( request )
+    .then( card => card ? createCardDto( card ) : card )
+    .then( card => response.successOrNotFound( req, res, card ) )    
+    .catch( error => response.invalidIdOrError( req, res, error ) );
 
 });
 
 router.delete( '/:id', ( req, res ) => {
     logger.logRequestInfo( req, 'Started' );
+    
+    const request
+            = {
+                userId : req.user.id,
+                commandParams:{
+                  cardId: req.params.id
+                }
+              };
 
-
-    Card
-      .findByIdAndRemove( req.params.id )
+    deleteCardService
+      .deleteCard( request )
       .then( card => card ? createCardDto( card ) : card )
       .then( card => response.successOrNotFound( req, res, card ) )
       .catch( error => response.invalidIdOrError( req, res, error ) );
