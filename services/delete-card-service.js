@@ -1,5 +1,5 @@
 const Card = require( '../models/card' );
-const errors = require( '../data/errors' );
+const errors = require( '../errors/errors' );
 const PermissionError = require( '../errors/PermissionError' );
 
 const canDeleteCard = ( card, userId ) => {

@@ -1,5 +1,5 @@
 const ValidationError = require( '../errors/ValidationError' );
-const errors = require( '../data/errors' );
+const errors = require( '../errors/errors' );
 const Promise = require( 'bluebird' );
 const response = require( '../resources/response' );
 const User = require( '../models/user' );
