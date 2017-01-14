@@ -5,6 +5,7 @@ const cardSchema = new mongoose.Schema({
     title: { type: String, required: true, unique: true },
     url: String,
     description: { type: String, required: true },
+    createdBy: { type: mongoose.Schema.Types.ObjectId, index: true }, 
     dateAdded: { type: Date, required: true }
 });
 

@@ -1,9 +1,12 @@
 const express = require( 'express' );
 const router = express.Router();
-const Card = require( '../models/card' );
+const Card = require( '../models/card' ); 
+const addCardService = require( '../services/add-card-service' );
+const cardsOwnedByUserQuery = require( '../services/cards-owned-by-user-query' );
 const logger = require( '../logger' );
 const response = require( './response' );
 // Resource: /v1/cards
+
 var createCardsDto = ( card ) => {
 
   return {
@@ -20,26 +23,39 @@ router.get( '/', ( req, res ) => {
 
     logger.logRequestInfo( req, 'Started' );
 
-    Card
-      .find()
+    console.log( req.user );
+
+    // todo: move getting the id from the request to the middleware
+    let request
+          = { 
+              userId: req.user.id 
+            };
+
+    cardsOwnedByUserQuery
+      .getCards( request )
       .then( allCards => allCards.map( createCardsDto ) )
       .then( allCards => response.success( req, res, allCards ) )
-      .catch( error => response.error( req, res, error ) );
+      .catch( error => response.error( req, res, error ) )
+      ;
+
 })
 
 router.post( '/', ( req, res ) => {
     logger.logRequestInfo( req, 'Started' );
 
-    let card 
-          = new Card({
-              title: req.body.title,
-              url: req.body.url, // todo: check how urls should be stored i.e. should i url encoded them ?
-              description: req.body.description,
-              dateAdded: Date.now()
-            });
+    let request
+          = {
+              userId: req.user.id,
+              cardDetails : {
+                title: req.body.title,
+                url: req.body.url,
+                description: req.body.description
+              }
+            };
 
-    card
-      .save()
+
+    addCardService
+      .addCard( request )
       .then( newCard => createCardsDto( newCard ) )
       .then( newCard => response.created( req, res, newCard, `/v1/card/${newCard.id}` ) )
       .catch( error => response.error( req, res, error ) );
