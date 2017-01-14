@@ -1,4 +1,4 @@
-const addCardService = require( '../services/add-card-service' );
+const addCardCommand = require( '../services/add-card-command' );
 const cardsOwnedByUserQuery = require( '../services/cards-owned-by-user-query' );
 const express = require( 'express' );
 const logger = require( '../logger' );
@@ -52,7 +52,7 @@ router.post( '/', ( req, res ) => {
             };
 
 
-    addCardService
+    addCardCommand
       .addCard( request )
       .then( newCard => createCardsDto( newCard ) )
       .then( newCard => response.created( req, res, newCard, `/v1/card/${newCard.id}` ) )

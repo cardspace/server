@@ -1,11 +1,11 @@
 const cardQuery = require( '../services/card-query' ); 
-const deleteCardService = require( '../services/delete-card-service' );
+const deleteCardCommand = require( '../services/delete-card-command' );
 const express = require( 'express' );
 const logger = require( '../logger' );
 const requestUser = require( '../security/request-user' );
 const response = require( './response' );
 const router = express.Router();
-const updateCardService = require( '../services/update-card-service' );
+const updateCardCommand = require( '../services/update-card-command' );
 // resource: /v1/card  get, put, delete
 
 var createCardDto = ( card ) => {
@@ -55,7 +55,7 @@ router.put( '/:id', ( req, res ) => {
              } 
            }
 
-  updateCardService
+  updateCardCommand
     .updateCard( request )
     .then( card => card ? createCardDto( card ) : card )
     .then( card => response.successOrNotFound( req, res, card ) )    
@@ -74,7 +74,7 @@ router.delete( '/:id', ( req, res ) => {
                 }
               };
 
-    deleteCardService
+    deleteCardCommand
       .deleteCard( request )
       .then( card => card ? createCardDto( card ) : card )
       .then( card => response.successOrNotFound( req, res, card ) )
