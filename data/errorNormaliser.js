@@ -1,4 +1,4 @@
-const CardSpaceError = require( './CardSpaceError' );
+const ValidationError = require( '../errors/ValidationError' );
 const errors = require( './errors' );
 const mongoose = require( 'mongoose' );
 
@@ -18,18 +18,18 @@ const normalisers = {
 
             for ( var fieldName in error.errors ) {
                 var mongooseError = error.errors[ fieldName ].kind;
-                var cardSpaceError = mongooseErrorTranslationTable[ mongooseError ];
+                var validationError = mongooseErrorTranslationTable[ mongooseError ];
 
                 var fieldError = fieldErrors[ fieldName ];
 
                 if ( fieldError === undefined ) {
-                    fieldError = CardSpaceError.createFieldError( fieldName ) 
+                    fieldError = ValidationError.createFieldError( fieldName ) 
                     fieldErrors[ fieldName ] = fieldError;
                 }
-                fieldError.errors.push( cardSpaceError );
+                fieldError.errors.push( validationError );
             }
 
-            return new CardSpaceError( [], fieldErrors, error );
+            return new ValidationError( [], fieldErrors, error );
         }
     },
 
@@ -59,12 +59,12 @@ const normalisers = {
             fieldName = fieldName.substring(0, fieldName.lastIndexOf("_"));
 
             fieldErrors = {  };
-            fieldError = CardSpaceError.createFieldError( fieldName ) 
+            fieldError = ValidationError.createFieldError( fieldName ) 
             fieldError.errors.push( errors.uniqueField );
 
             fieldErrors[ fieldName ] = fieldError;
 
-            return new CardSpaceError( [], fieldErrors, error );
+            return new ValidationError( [], fieldErrors, error );
         }
     }
 }

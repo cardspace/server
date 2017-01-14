@@ -1,4 +1,4 @@
-const CardSpaceError = require( '../data/CardSpaceError' );
+const ValidationError = require( '../errors/ValidationError' );
 const logger = require( '../logger' );
 const PermissionError = require( '../errors/PermissionError' );
 
@@ -37,7 +37,7 @@ module.exports = {
     error( req, res, error ) {
         logger.logRequestError( req, error );
 
-        if ( error instanceof CardSpaceError ) {
+        if ( error instanceof ValidationError ) {
 
             var publicError = {
                 errors: error.errors,

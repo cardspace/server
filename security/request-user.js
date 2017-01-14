@@ -1,4 +1,4 @@
-const CardSpaceError = require( '../data/CardSpaceError' );
+const ValidationError = require( '../errors/ValidationError' );
 const errors = require( '../data/errors' );
 const Promise = require( 'bluebird' );
 const response = require( '../resources/response' );
@@ -10,7 +10,7 @@ var getUserEmailFromRequest = ( req ) => {
   return Promise.try( () => {
 
     if ( !( req.user.email ) ) {
-      throw new CardSpaceError( [ errors.emailMissingFromRequest ], {}, {} );
+      throw new ValidationError( [ errors.emailMissingFromRequest ], {}, {} );
     }  
     return req.user.email;
   });
