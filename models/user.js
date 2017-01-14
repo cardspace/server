@@ -1,15 +1,16 @@
 const modelBuilder = require( './model-builder' );
+const modelNames = require( './model-names' );
 const mongoose = require( 'mongoose' );
 const Group = require( './group' ); 
 
 const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
-    allCardsGroup : { type: mongoose.Schema.Types.ObjectId, ref: 'Group' },
+    allCardsGroup : { type: mongoose.Schema.Types.ObjectId, ref: modelNames.Group },
     dateAdded: { type: Date, required: true }
 });
 
 
-const User = modelBuilder.build( 'User', userSchema );
+const User = modelBuilder.build( modelNames.User, userSchema );
 
 User.findByEmail = ( email ) => {
 

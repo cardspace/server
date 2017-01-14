@@ -1,4 +1,5 @@
 const modelBuilder = require( './model-builder' );
+const modelNames = require( './model-names' );
 const mongoose = require( 'mongoose' );
 
 const cardSchema = new mongoose.Schema({
@@ -9,6 +10,6 @@ const cardSchema = new mongoose.Schema({
     dateAdded: { type: Date, required: true }
 });
 
-const Card =  modelBuilder.build( 'Card', cardSchema );
+const Card =  modelBuilder.build( modelNames.Card, cardSchema );
 
 module.exports = Card;
