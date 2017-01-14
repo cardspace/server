@@ -56,3 +56,7 @@ module.exports = function () {
     return addUserIdToRequest;
 };
 
+module.exports.getUserId = ( req ) => {
+
+  return req.user.id;
+}

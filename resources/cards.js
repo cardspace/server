@@ -1,9 +1,10 @@
-const express = require( 'express' );
-const router = express.Router();
 const addCardService = require( '../services/add-card-service' );
 const cardsOwnedByUserQuery = require( '../services/cards-owned-by-user-query' );
+const express = require( 'express' );
 const logger = require( '../logger' );
+const requestUser = require( '../security/request-user' );
 const response = require( './response' );
+const router = express.Router();
 // Resource: /v1/cards
 
 var createCardsDto = ( card ) => {
@@ -25,7 +26,7 @@ router.get( '/', ( req, res ) => {
     // todo: move getting the id from the request to the middleware
     let request
           = { 
-              userId: req.user.id 
+              userId: requestUser.getUserId( req ) 
             };
 
     cardsOwnedByUserQuery
@@ -42,7 +43,7 @@ router.post( '/', ( req, res ) => {
 
     let request
           = {
-              userId: req.user.id,
+              userId: requestUser.getUserId( req ),
               cardDetails : {
                 title: req.body.title,
                 url: req.body.url,

@@ -1,9 +1,10 @@
+const cardQuery = require( '../services/card-query' ); 
 const deleteCardService = require( '../services/delete-card-service' );
 const express = require( 'express' );
-const router = express.Router();
-const cardQuery = require( '../services/card-query' ); 
 const logger = require( '../logger' );
+const requestUser = require( '../security/request-user' );
 const response = require( './response' );
+const router = express.Router();
 const updateCardService = require( '../services/update-card-service' );
 // resource: /v1/card  get, put, delete
 
@@ -24,7 +25,7 @@ router.get( '/:id', ( req, res ) => {
 
     let request
           = {
-              userId : req.user.id,
+              userId : requestUser.getUserId( req ),
               queryParams: {
                 cardId: req.params.id
               } 
@@ -43,7 +44,7 @@ router.put( '/:id', ( req, res ) => {
 
   const request
          = {
-             userId : req.user.id,
+             userId : requestUser.getUserId( req ),
              commandParams: {
                cardId: req.params.id,
                update: {
@@ -67,7 +68,7 @@ router.delete( '/:id', ( req, res ) => {
     
     const request
             = {
-                userId : req.user.id,
+                userId : requestUser.getUserId( req ),
                 commandParams:{
                   cardId: req.params.id
                 }
