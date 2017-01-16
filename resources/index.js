@@ -5,7 +5,7 @@ router.use( '/v1/cards', require( './cards' ) );
 router.use( '/v1/card', require( './card' ) );
 
 router.get( '/', ( req, res ) => {
-  res.send( 'cardspace' );  
+  res.send( 'cardspace-api' );  
 });
 
 router.get( '/version', ( req, res ) => {
