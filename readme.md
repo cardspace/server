@@ -1,3 +1,47 @@
+# Cardspace api
+
+Restfull api for the cardspace application.
+
+
+## Release Notes
+
+### Vr 0.1.0
+
+* Users have to login.
+* You can create, edit and delete a card.
+* You can get a list of all cards for the logged in user.
+
+
+## Api
+
+* *GET /* - returns name of the service
+* *GET /version* - returns the current version of the api
+* *GET /v1/cards* - gets all cards created by the authenticated user.
+* *POST /v1/cards* - create a card for the authenticated user
+
+```
+{
+    "title": "google",
+    "url": "www.google.co.uk",
+    "description": "Description"
+}
+```
+
+* *GET /v1/card/:id* - get the card if it was created by the authenticated user.
+* *PUT /v1/card/:id* - updated the card if it was created by the authenticated user.
+
+```
+{
+    "title": "google",
+    "url": "www.google.co.uk",
+    "description": "Description"
+}
+```
+
+* *DELETE /v1/card/:id* - deletes the card if it was created by the authenticated user.
+
+
+
 ## Configuration
 
 ### .env-template
