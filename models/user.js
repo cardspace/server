@@ -1,11 +1,9 @@
 const modelBuilder = require( './model-builder' );
 const modelNames = require( './model-names' );
 const mongoose = require( 'mongoose' );
-const Group = require( './group' ); 
 
 const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
-    allCardsGroup : { type: mongoose.Schema.Types.ObjectId, ref: modelNames.Group },
     dateAdded: { type: Date, required: true }
 });
 
@@ -20,30 +18,14 @@ User.findByEmail = ( email ) => {
 
 User.createNormalisedUser = ( email ) => {
 
-    const normalisedEmail 
-            = email.toLowerCase();
+    let user = new User( { 
+        email: email.toLowerCase(),
+        dateAdded: Date.now()
+    });
 
-    const dateAdded 
-            = Date.now();
 
-    let allCardsGroup
-          = new Group({
-             title: `${normalisedEmail} - all cards`,
-             dateAdded: dateAdded
-            });
-
-    return allCardsGroup
-            .save()
-            .then( group => {
-
-                return new User( { 
-                    email: normalisedEmail,
-                    allCardsGroup: group._id,
-                    dateAdded: dateAdded
-                })
-
-            })
-            .then( user => user.save() )
+    return user
+            .save();
 
 }
 
