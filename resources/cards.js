@@ -1,5 +1,6 @@
 const addCardCommand = require( '../services/add-card-command' );
 const cardsOwnedByUserQuery = require( '../services/cards-owned-by-user-query' );
+const cors = require( 'cors' );
 const express = require( 'express' );
 const logger = require( '../logger' );
 const requestUser = require( '../security/request-user' );
@@ -18,6 +19,8 @@ var createCardsDto = ( card ) => {
   }
 
 }
+
+router.options( '/', cors() );
 
 router.get( '/', ( req, res ) => {
 
