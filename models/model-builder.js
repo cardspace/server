@@ -24,10 +24,23 @@ var normaliseErrors = ( error, doc, next ) => {
     next( normalisedError );
 }
 
+var runValidators = function ( next ) {
+
+    if ( this.options ) {
+        this.options.runValidators = true;
+    }
+    next();
+    
+} 
+
 module.exports = {
 
     build( modelName, schema ) {
 
+        schema.pre( 'save', runValidators );
+        schema.pre( 'update', runValidators );
+        schema.pre( 'findOneAndUpdate', runValidators );
+        schema.pre( 'insertMany', runValidators );
 
         //   create is wrapper over save so errors will
         //   be caught in the save handler.
