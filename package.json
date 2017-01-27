@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "watch": "nodemon server -e js",
+    "dev": "nodemon server -e js",
     "start": "node server"
   },
   "keywords": [],
