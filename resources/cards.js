@@ -13,8 +13,7 @@ var createCardsDto = ( card ) => {
   return {
     id: card._id,
     title: card.title,
-    description: card.description,
-    url: card.url,
+    text: card.text,
     dateAdded: card.dateAdded
   }
 
@@ -49,8 +48,7 @@ router.post( '/', ( req, res ) => {
               userId: requestUser.getUserId( req ),
               cardDetails : {
                 title: req.body.title,
-                url: req.body.url,
-                description: req.body.description
+                text: req.body.text
               }
             };
 

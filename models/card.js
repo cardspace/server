@@ -4,8 +4,7 @@ const mongoose = require( 'mongoose' );
 
 const cardSchema = new mongoose.Schema({
     title: { type: String, required: true },
-    url: String,
-    description: { type: String },
+    text: { type: String },
     createdBy: { type: mongoose.Schema.Types.ObjectId, index: true }, 
     dateAdded: { type: Date, required: true }
 });
