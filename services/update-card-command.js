@@ -10,6 +10,28 @@ const canUpdateCard = ( card, userId ) => {
     return card;
 }
 
+const createUpdateContext = ( card, request ) => {
+
+    const sanatiseForUpdate = ( request ) => {
+
+        return Object.assign( 
+            {},
+            request,
+            {
+                title: request.title.trim(),
+                text: request.text.trim()
+            }
+        );
+    }
+
+
+    return {
+        card,
+        update: sanatiseForUpdate( request )
+    }
+}
+
+
 module.exports = {
 
     updateCard ( request ) {
@@ -21,7 +43,6 @@ module.exports = {
         //         update: {
         //            (optional) title:       // title that the card should be set to   
         //            (optional) description: // description that the card should be set to
-        //            (optional) url:         // url that the card should be set to
         //          }
         //       } 
         //     }
@@ -29,7 +50,8 @@ module.exports = {
         return Card
                  .findById( request.commandParams.cardId )
                  .then( card => card ? canUpdateCard( card, request.userId ) : card )
-                 .then( card => card ? card.update( request.commandParams.update ) : card )
+                 .then( card => card ? createUpdateContext( card, request.commandParams.update ) : card )
+                 .then( context => context ? context.card.update( context.update ) : card )
                  ;
     }
 }

@@ -7,8 +7,8 @@ module.exports = {
         
       let card 
             = new Card({
-                title: request.cardDetails.title,
-                text: request.cardDetails.text,
+                title: request.cardDetails.title.trim(),
+                text: request.cardDetails.text.trim(),
                 createdBy: request.userId,
                 dateAdded: Date.now()
               });
