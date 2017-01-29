@@ -51,6 +51,7 @@ var unlessOptions = ( middleware ) => {
     };
 };
 
+app.use( cors() );
 app.use( unlessOptions( jwtCheck ) );
 app.use( unlessOptions( requestUser() ) ); 
 
@@ -74,7 +75,6 @@ app.use( morgan( 'dev' ) );
 app.use( bodyParser.urlencoded( { 'extended':'true' } ) );
 app.use( bodyParser.json() );          
 app.use( bodyParser.json( { type: 'application/vnd.api+json' } ) );
-app.use( cors() );
 app.use( expressRequestId() );
 
 
