@@ -5,10 +5,10 @@ const express = require( 'express' );
 
 // security
 const jwt = require( 'express-jwt' );
-const requestUser = require( './security/request-user' );
+const requestUser = require( './services/security/request-user' );
 
 // logging
-const logger = require( './logger' );
+const logger = require( './services/logger' );
 const morgan = require( 'morgan' );
 
 // request handling
@@ -79,7 +79,7 @@ app.use( expressRequestId() );
 
 
 // 4. set up the routes
-app.use( require( './resources') );
+app.use( require( './routes') );
 
 
 app.listen( normalizePort( process.env.PORT ) || normalizePort( process.env.CARDSPACE_LISTEN_PORT ) || 8081 );

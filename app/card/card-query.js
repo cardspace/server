@@ -1,6 +1,6 @@
-const Card = require( '../models/card' );
-const errors = require( '../errors/errors' );
-const PermissionError = require( '../errors/PermissionError' );
+const Card = require( './card-model' );
+const errors = require( '../../services/errors/errors' );
+const PermissionError = require( '../../services/errors/PermissionError' );
 
 
 const canViewCard = ( card, userId ) => {

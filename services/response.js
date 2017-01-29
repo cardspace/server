@@ -1,6 +1,6 @@
-const ValidationError = require( '../errors/ValidationError' );
-const logger = require( '../logger' );
-const PermissionError = require( '../errors/PermissionError' );
+const ValidationError = require( './errors/ValidationError' );
+const logger = require( './logger' );
+const PermissionError = require( './errors/PermissionError' );
 
 module.exports = {
 

@@ -1,7 +1,7 @@
 // database
 const mongoose = require( 'mongoose' );
 const bluebird = require( 'bluebird' );
-const logger = require( '../logger' );
+const logger = require( './logger' );
 
 mongoose.Promise = bluebird;
 

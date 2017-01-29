@@ -1,5 +1,4 @@
-const Card = require( '../models/card' );
-const User = require( '../models/user' );
+const Card = require( './card-model' );
 
 module.exports = {
 

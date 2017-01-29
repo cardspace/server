@@ -1,11 +1,11 @@
-const cardQuery = require( '../services/card-query' ); 
-const deleteCardCommand = require( '../services/delete-card-command' );
+const cardQuery = require( './card-query' ); 
+const deleteCardCommand = require( './delete-card-command' );
 const express = require( 'express' );
-const logger = require( '../logger' );
-const requestUser = require( '../security/request-user' );
-const response = require( './response' );
+const logger = require( '../../services/logger' );
+const requestUser = require( '../../services/security/request-user' );
+const response = require( '../../services/response' );
 const router = express.Router();
-const updateCardCommand = require( '../services/update-card-command' );
+const updateCardCommand = require( './update-card-command' );
 // resource: /v1/card  get, put, delete
 
 var createCardDto = ( card ) => {

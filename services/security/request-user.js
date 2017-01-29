@@ -1,8 +1,8 @@
 const ValidationError = require( '../errors/ValidationError' );
 const errors = require( '../errors/errors' );
 const Promise = require( 'bluebird' );
-const response = require( '../resources/response' );
-const User = require( '../models/user' );
+const response = require( '../response' );
+const User = require( '../../app/user/user-model' );
 
 
 var getUserEmailFromRequest = ( req ) => {

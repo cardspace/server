@@ -1,5 +1,5 @@
-const modelBuilder = require( './model-builder' );
-const modelNames = require( './model-names' );
+const modelBuilder = require( '../../services/model/model-builder' );
+const modelNames = require( '../../services/model/model-names' );
 const mongoose = require( 'mongoose' );
 
 const cardSchema = new mongoose.Schema({

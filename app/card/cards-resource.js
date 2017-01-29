@@ -1,10 +1,10 @@
-const addCardCommand = require( '../services/add-card-command' );
-const cardsOwnedByUserQuery = require( '../services/cards-owned-by-user-query' );
+const addCardCommand = require( './add-card-command' );
+const cardsOwnedByUserQuery = require( './cards-owned-by-user-query' );
 const cors = require( 'cors' );
 const express = require( 'express' );
-const logger = require( '../logger' );
-const requestUser = require( '../security/request-user' );
-const response = require( './response' );
+const logger = require( '../../services/logger' );
+const requestUser = require( '../../services/security/request-user' );
+const response = require( '../../services/response' );
 const router = express.Router();
 // Resource: /v1/cards
 

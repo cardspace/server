@@ -1,8 +1,8 @@
 const express = require( 'express' );
 const router = express.Router();
 
-router.use( '/v1/cards', require( './cards' ) );
-router.use( '/v1/card', require( './card' ) );
+router.use( '/v1/cards', require( './app/card/cards-resource' ) );
+router.use( '/v1/card', require( './app/card/card-resource' ) );
 
 router.get( '/', ( req, res ) => {
   res.send( 'cardspace-api' );  
