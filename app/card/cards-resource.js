@@ -26,10 +26,13 @@ router.get( '/', ( req, res ) => {
 
     logger.logRequestInfo( req, 'Started' );
 
-    // todo: move getting the id from the request to the middleware
     let request
           = { 
-              userId: requestUser.getUserId( req ) 
+              userId: requestUser.getUserId( req ),
+              queryParams: {
+                  statusFilter: req.query.status
+              }
+
             };
 
     cardsOwnedByUserQuery
