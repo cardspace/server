@@ -5,6 +5,13 @@ Restfull api for the cardspace application.
 
 ## Release Notes
 
+### Next version 
+
+* Cards have a status of either active or complete, they initially start off as active.
+    *   PUT /v1/card/:id/complete
+    *   PUT /v1/card/:id/activate
+
+
 ### Vr 0.1.0
 
 * Users have to login.
@@ -39,6 +46,9 @@ Restfull api for the cardspace application.
 ```
 
 * *DELETE /v1/card/:id* - deletes the card if it was created by the authenticated user.
+
+* *PUT /v1/card/:id/complete* - changes a cards status to completed.
+* *PUT /v1/card/:id/activate* - changes a cards status to active.
 
 
 

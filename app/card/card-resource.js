@@ -6,7 +6,11 @@ const requestUser = require( '../../services/security/request-user' );
 const response = require( '../../services/response' );
 const router = express.Router();
 const updateCardCommand = require( './update-card-command' );
-// resource: /v1/card  get, put, delete
+const changeCardStatusCommand = require( './change-card-status-command' );
+
+// resource: /v1/card/:id             - get, put, delete
+//           /v1/card/:id/completed   - put
+//           /v1/card/:id/active      - put 
 
 var createCardDto = ( card ) => {
 
@@ -14,6 +18,7 @@ var createCardDto = ( card ) => {
     id: card._id,
     title: card.title,
     text: card.text,
+    status: card.status,
     dateAdded: card.dateAdded
   }
 
@@ -79,5 +84,45 @@ router.delete( '/:id', ( req, res ) => {
       .catch( error => response.invalidIdOrError( req, res, error ) );
 
 });
+
+router.put( '/:id/completed', ( req, res ) => {
+  logger.logRequestInfo( req, 'Started' );
+
+  const request
+         = {
+             userId : requestUser.getUserId( req ),
+             commandParams: {
+               cardId: req.params.id
+             } 
+           }
+
+  changeCardStatusCommand
+    .markCardAsCompleted( request )
+    .then( card => card ? createCardDto( card ) : card )
+    .then( card => response.successOrNotFound( req, res, card ) )
+    .catch( error => response.invalidIdOrError( req, res, error ) );
+
+});
+
+router.put( '/:id/activate', ( req, res ) => {
+  logger.logRequestInfo( req, 'Started' );
+
+  const request
+         = {
+             userId : requestUser.getUserId( req ),
+             commandParams: {
+               cardId: req.params.id
+             } 
+           }
+
+  changeCardStatusCommand
+    .markCardAsActive( request )
+    .then( card => card ? createCardDto( card ) : card )
+    .then( card => response.successOrNotFound( req, res, card ) )
+    .catch( error => response.invalidIdOrError( req, res, error ) );
+
+});
+
+
 
 module.exports = router;

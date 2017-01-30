@@ -4,8 +4,15 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server -e js",
-    "start": "node server"
+    "test": "mocha ./tests/",
+
+    "local-watch": "nodemon server -e js",
+    "local-run": "node server",
+
+    "dev-deploy": "git push cardspace-dev master",
+    "stage-deploy": "git push cardspace-stage master",
+    "prod-deploy" : "git push cardspace-prod master"
+
   },
   "keywords": [],
   "author": "",
