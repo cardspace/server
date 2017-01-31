@@ -12,4 +12,8 @@ module.exports = class ModelNames {
       return "User";
   }
 
+  static get Space() {
+      return "Space";
+  }
+
 }
