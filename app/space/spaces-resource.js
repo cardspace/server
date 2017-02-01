@@ -57,7 +57,7 @@ router.post( '/', ( req, res ) => {
         .addSpace( request )
         .then( newSpace => createDto( newSpace ) )
         .then( newSpace => response.created( req, res, newSpace, `/v1/space/${newSpace.id}` ) )
-        .then( error => respnse.error( req, res, error ) );
+        .catch( error => response.error( req, res, error ) );
 } )
 
 module.exports = router;

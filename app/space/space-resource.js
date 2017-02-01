@@ -35,9 +35,11 @@ router.put( '/:id', ( req, res ) => {
                 }
             }
 
+    console.log( request );
+
      updateSpaceCommand
         .updateSpace( request )
-        .then(  space => { console.log( space  ); return space } )
+        .then(  space => { console.log( 'space:', space  ); return space } )
         .then( space => space ? createSummaryDto( space ) : space )
         .then( space => response.successOrNotFound( req, res, space ) )
         .catch( error => response.invalidIdOrError( req, res, error ) )

@@ -50,7 +50,7 @@ module.exports = {
                 .findById( request.commandParams.spaceId )
                 .then( space => space ? canUpdateSpace( space, request.userId ) : space )
                 .then( space => space ? createUpdateContext( space, request.commandParams.update ) : space )
-                .then( context => context ? context.space.update( context.update ) : space )
+                .then( context => context ? context.space.update( context.update ) : context )
                 ;
     }
 
