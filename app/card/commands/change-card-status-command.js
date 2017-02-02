@@ -1,6 +1,5 @@
-const Card = require( './card-model' );
-const errors = require( '../../services/errors/errors' );
-const PermissionError = require( '../../services/errors/PermissionError' );
+const errors = require( '../../../services/errors/errors' );
+const PermissionError = require( '../../../services/errors/PermissionError' );
 
 const canUpdateCardStatus = ( card, userId ) => {
 
@@ -20,13 +19,13 @@ const createUpdateContext = ( card, status ) => {
     }
 }
 
-const updateCardStatus = (  userId, cardId, status ) => {
+const updateCardStatus = ( repository, userId, cardId, status ) => {
 
-    return Card
+    return repository
             .findById( cardId )
             .then( card => card ? canUpdateCardStatus( card, userId ) : card )
             .then( card => card ? createUpdateContext( card, status ) : card )
-            .then( context => context ? context.card.update( context.update ) : card )
+            .then( context => context ? repository.update( context ) : context )
             ;
 
 }
@@ -38,12 +37,14 @@ module.exports = {
     //       userId : // id of the user making the request
     //       commandParams: {
     //         cardId: // id of the card to be updated
-    //       } 
+    //       },
+    //       repository: card repository 
     //     }
 
     markCardAsCompleted ( request ) {
        
         return updateCardStatus( 
+            request.repository,
             request.userId,
             request.commandParams.cardId, 
             'complete' 
@@ -54,12 +55,12 @@ module.exports = {
     markCardAsActive ( request ) {
        
        return updateCardStatus( 
+            request.repository,
             request.userId,
             request.commandParams.cardId, 
             'active'
        );
 
     }    
-    
 
 }

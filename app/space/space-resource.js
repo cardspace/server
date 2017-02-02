@@ -1,10 +1,12 @@
-const deleteSpaceCommand = require( './delete-space-command' );
 const express = require( 'express' );
 const logger = require( '../../services/logger' );
 const requestUser = require( '../../services/security/request-user' );
 const response = require( '../../services/response' );
 const router = express.Router();
-const updateSpaceCommand = require( './update-space-command' );
+
+const spaceServices = require( './space-services' );
+const deleteSpaceCommand = require( './commands/delete-space-command' );
+const updateSpaceCommand = require( './commands/update-space-command' );
 
 
 // resource: /v1/card/:id  - put, delete
@@ -32,10 +34,9 @@ router.put( '/:id', ( req, res ) => {
                         title: req.body.title,
                         text: req.body.text
                     }
-                }
+                },
+                repository: spaceServices.repository
             }
-
-    console.log( request );
 
      updateSpaceCommand
         .updateSpace( request )
@@ -57,7 +58,8 @@ router.delete( '/:id', ( req, res ) => {
                 userId: requestUser.getUserId( req ),
                 commandParams: {
                     spaceId: req.params.id
-                }
+                },
+                repository: spaceServices.repository
             }
 
     deleteSpaceCommand

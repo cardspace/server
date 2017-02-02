@@ -1,12 +1,19 @@
-const addCardCommand = require( './add-card-command' );
-const cardsOwnedByUserQuery = require( './cards-owned-by-user-query' );
 const cors = require( 'cors' );
 const express = require( 'express' );
 const logger = require( '../../services/logger' );
 const requestUser = require( '../../services/security/request-user' );
 const response = require( '../../services/response' );
 const router = express.Router();
-// Resource: /v1/cards
+
+const cardServices = require( './card-services' );
+
+const addCardCommand = require( './commands/add-card-command' );
+
+const cardsOwnedByUserQuery = require( './queries/cards-owned-by-user-query' );
+
+
+
+// Resource: /v1/cards  - get, post 
 
 var createCardsDto = ( card ) => {
 
@@ -53,7 +60,9 @@ router.post( '/', ( req, res ) => {
               cardDetails : {
                 title: req.body.title,
                 text: req.body.text
-              }
+              },
+              factory: cardServices.factory,
+              repository: cardServices.repository
             };
 
 

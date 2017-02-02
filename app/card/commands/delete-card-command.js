@@ -1,6 +1,5 @@
-const Card = require( './card-model' );
-const errors = require( '../../services/errors/errors' );
-const PermissionError = require( '../../services/errors/PermissionError' );
+const errors = require( '../../../services/errors/errors' );
+const PermissionError = require( '../../../services/errors/PermissionError' );
 
 
 const canDeleteCard = ( card, userId ) => {
@@ -22,12 +21,14 @@ module.exports = {
         //       commandParams: {
         //         cardId: // id of the card to be updated
         //       } 
+        //       repository: card repository
         //     }
         
-        return Card
-                 .findById( request.commandParams.cardId )
-                 .then( card => card ? canDeleteCard( card, request.userId ) : card )
-                 .then( card => card ? card.remove() : card  )
+        return request
+                .repository
+                .findById( request.commandParams.cardId )
+                .then( card => card ? canDeleteCard( card, request.userId ) : card )
+                .then( card => card ? request.repository.remove( card ) : card  )
                  ;
 
     }

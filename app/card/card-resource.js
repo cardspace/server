@@ -1,16 +1,22 @@
-const cardQuery = require( './card-query' ); 
-const deleteCardCommand = require( './delete-card-command' );
 const express = require( 'express' );
 const logger = require( '../../services/logger' );
 const requestUser = require( '../../services/security/request-user' );
 const response = require( '../../services/response' );
 const router = express.Router();
-const updateCardCommand = require( './update-card-command' );
-const changeCardStatusCommand = require( './change-card-status-command' );
+
+const cardServices = require( './card-services' );
+
+const deleteCardCommand = require( './commands/delete-card-command' );
+const updateCardCommand = require( './commands/update-card-command' );
+const changeCardStatusCommand = require( './commands/change-card-status-command' );
+
+const cardQuery = require( './queries/card-query' ); 
+
 
 // resource: /v1/card/:id             - get, put, delete
 //           /v1/card/:id/completed   - put
 //           /v1/card/:id/active      - put 
+
 
 var createCardDto = ( card ) => {
 
@@ -55,7 +61,8 @@ router.put( '/:id', ( req, res ) => {
                   title: req.body.title, 
                   text: req.body.text, 
                 }
-             } 
+             },
+             repository: cardServices.repository
            }
 
   updateCardCommand
@@ -74,7 +81,8 @@ router.delete( '/:id', ( req, res ) => {
                 userId : requestUser.getUserId( req ),
                 commandParams:{
                   cardId: req.params.id
-                }
+                },
+                repository: cardServices.repository
               };
 
     deleteCardCommand
@@ -93,7 +101,8 @@ router.put( '/:id/completed', ( req, res ) => {
              userId : requestUser.getUserId( req ),
              commandParams: {
                cardId: req.params.id
-             } 
+             },
+             repository: cardServices.repository
            }
 
   changeCardStatusCommand
@@ -112,7 +121,8 @@ router.put( '/:id/activate', ( req, res ) => {
              userId : requestUser.getUserId( req ),
              commandParams: {
                cardId: req.params.id
-             } 
+             },
+             repository: cardServices.repository
            }
 
   changeCardStatusCommand

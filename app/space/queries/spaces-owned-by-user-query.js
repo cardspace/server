@@ -1,4 +1,4 @@
-const Space = require( './space-model' );
+const Space = require( '../space-model' );
 
 module.exports = {
 

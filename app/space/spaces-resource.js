@@ -1,11 +1,17 @@
-const addSpaceCommand = require( './add-space-command' );
 const cors = require( 'cors' );
 const express = require( 'express' );
 const logger = require( '../../services/logger' );
 const requestUser = require( '../../services/security/request-user' );
 const response = require( '../../services/response' );
-const spacesOwnedByUserQuery = require( './spaces-owned-by-user-query' )
 const router = express.Router();
+
+const spaceServices = require( './space-services' );
+
+const addSpaceCommand = require( './commands/add-space-command' );
+
+const spacesOwnedByUserQuery = require( './queries/spaces-owned-by-user-query' )
+
+
 
 // resource: /v1/space - get, post
 
@@ -50,7 +56,9 @@ router.post( '/', ( req, res ) => {
                 commandParams: {
                     title: req.body.title,
                     text: req.body.text
-                }
+                },
+                factory: spaceServices.factory,
+                repository: spaceServices.repository
             }
 
     addSpaceCommand

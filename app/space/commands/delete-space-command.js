@@ -1,6 +1,5 @@
-const errors = require( '../../services/errors/errors' );
-const PermissionError = require(  '../../services/errors/PermissionError' );
-const Space = require( './space-model' );
+const errors = require( '../../../services/errors/errors' );
+const PermissionError = require(  '../../../services/errors/PermissionError' );
 
 const canDeleteSpace = ( space, userId ) => {
 
@@ -20,13 +19,16 @@ module.exports = {
         //           commandParams: {
         //               spaceId: id of the space to be deleted
         //           }
+        //           repository: space repository
         //       }
 
-        return Space 
+        return request
+                .repository
                 .findById( request.commandParams.spaceId  )
                 .then( space => space ? canDeleteSpace( space, request.userId ) : space )
-                .then( space => space ? space.remove() : space )
+                .then( space => space ? request.repository.remove( space ) : space )
                 ;
+
 
     }
 }

@@ -1,6 +1,6 @@
-const errors = require( '../../services/errors/errors' );
-const PermissionError = require( '../../services/errors/PermissionError' );
-const Space = require( './space-model' );
+const errors = require( '../../../services/errors/errors' );
+const PermissionError = require( '../../../services/errors/PermissionError' );
+const Space = require( '../space-model' );
 
 
 const canUpdateSpace = ( space, userId ) => {
