@@ -3,12 +3,14 @@ module.exports = {
     addCard( request ) {
 
         // request {
-        //  cardDetails {
-        //      title: card title string
-        //      text:  card text string 
-        //  },
-        //  factory: factory method that will create an new instance of the model
-        //  repository that will add the model to the repository. 
+        //      userId:  id of user creating the card
+        //      cardDetails {
+        //          title: card title string
+        //          text:  card text string
+        //          spaceId: id of the space that the card belong to if there is one 
+        //      },
+        //      factory: factory method that will create an new instance of the model
+        //      repository that will add the model to the repository. 
         // }
 
         // Todo: add an id column to the card and use that as the unique id
@@ -21,13 +23,28 @@ module.exports = {
 
             return value ? value.trim() : value;
         }
+        let update = {}
 
-        let card = request.factory({
-            title: trimField( request.cardDetails.title ),
-            text: trimField( request.cardDetails.text ),
-            createdBy: request.userId,
-            dateAdded: Date.now()
-        });
+        var titleValue = trimField( request.cardDetails.title );
+        if ( titleValue ) {
+            update.title = titleValue
+        }
+
+        var textValue = trimField( request.cardDetails.text );
+        if ( textValue ) {
+            update.text = textValue
+        }
+
+        if ( request.cardDetails.spaceId ) {
+            update.inSpaceId = request.cardDetails.spaceId;
+        }
+
+
+        update.createdBy = request.userId;
+        update.dateAdded = Date.now();
+
+
+        let card = request.factory( update );
 
         return request.repository.add( card )
     }

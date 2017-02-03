@@ -15,6 +15,8 @@ const spacesOwnedByUserQuery = require( './queries/spaces-owned-by-user-query' )
 
 // resource: /v1/space - get, post
 
+// todo: use spaceDto rather than the loacally defined function.
+
 var createDto = ( space ) => {
 
   return {

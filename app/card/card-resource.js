@@ -18,6 +18,8 @@ const cardQuery = require( './queries/card-query' );
 //           /v1/card/:id/active      - put 
 
 
+// todo: use the cardDto rather than this function.
+
 var createCardDto = ( card ) => {
 
   return {

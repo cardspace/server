@@ -15,6 +15,8 @@ const cardsOwnedByUserQuery = require( './queries/cards-owned-by-user-query' );
 
 // Resource: /v1/cards  - get, post 
 
+// todo: use cardDto rather than this function.
+
 var createCardsDto = ( card ) => {
 
   return {

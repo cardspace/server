@@ -51,8 +51,8 @@ module.exports = {
                 .repository
                 .findById( request.commandParams.cardId )
                 .then( card => card ? canUpdateCard( card, request.userId ) : card )
-                 .then( card => card ? createUpdateContext( card, request.commandParams.update ) : card )
-                 .then( context => context ? request.repository.update( context ) : context )
+                .then( card => card ? createUpdateContext( card, request.commandParams.update ) : card )
+                .then( context => context ? request.repository.update( context ) : context )
                  ;
     }
 }
