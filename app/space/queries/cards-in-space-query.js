@@ -21,8 +21,9 @@ module.exports = {
         // add status filter if one was defined
         const statusFilters = [ 'complete', 'active' ];
 
+
         if ( statusFilters.findIndex( ( n ) => n == request.queryParams.status ) != -1 ) {
-            filterCriteria.status = request.queryParams.statusFilter;
+            filterCriteria.status = request.queryParams.status;
         }
 
         return Card
