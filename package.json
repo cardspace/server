@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha ./tests/",
+    "test": "mocha --recursive ./tests/",
 
     "local-watch": "nodemon server -e js",
     "local-run": "node server",

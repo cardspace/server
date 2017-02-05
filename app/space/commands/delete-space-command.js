@@ -1,11 +1,28 @@
 const errors = require( '../../../services/errors/errors' );
 const PermissionError = require(  '../../../services/errors/PermissionError' );
+const deleteCardsInSpaceCommand = require( '../../card/commands/delete-cards-in-space' );
+
 
 const canDeleteSpace = ( space, userId ) => {
 
     if ( space.createdBy != userId ) {
         throw new PermissionError( errors.notAllowedToDeleteSpace );
     }
+    return space;
+}
+
+const deleteCards = ( space, cardRepository ) => {
+
+    let request = {
+        commandParams : {
+            spaceId: space.id
+        },
+        repository: cardRepository
+    }
+
+    deleteCardsInSpaceCommand
+        .deleteCardsInSpace( request );
+    
     return space;
 }
 
@@ -19,16 +36,17 @@ module.exports = {
         //           commandParams: {
         //               spaceId: id of the space to be deleted
         //           }
-        //           repository: space repository
+        //           spaceRepository: space repository,
+        //           cardRepository: card repository
         //       }
 
         return request
-                .repository
+                .spaceRepository
                 .findById( request.commandParams.spaceId  )
                 .then( space => space ? canDeleteSpace( space, request.userId ) : space )
-                .then( space => space ? request.repository.remove( space ) : space )
+                .then( space => space ? deleteCards( space, request.cardRepository ) : space )
+                .then( space => space ? request.spaceRepository.remove( space ) : space )
                 ;
-
 
     }
 }

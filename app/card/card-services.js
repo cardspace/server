@@ -9,15 +9,15 @@ const Card = require( './card-model' );
 
 const factory = ( state ) => {
 
-    // state
-    //    title     : card title
-    //    text      : card text
-    //    createdBy : user id of person who created this card
-    //    dateAdded : the date that the card was added to the system.
     return new Card( state );
 }
 
 const repository = repositoryBuilder( Card, ( context ) => context.card );
+
+repository.findBySpaceId = ( spaceId ) => {
+    console.log( 'findBySpaceId' )
+    return Card.find( { inSpaceId: spaceId } )
+}
 
 module.exports = {
     factory:  factory,

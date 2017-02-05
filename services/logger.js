@@ -20,40 +20,55 @@ winston.emitErrs = true;
 
     "level: 'info'" tells the transport to log error, warn, info messages
 */
-var logger = new winston.Logger({
-    transports: [
-        new winston.transports.File({
-            level: 'info',
-            filename: process.env.CARDSPACE_LOGFILE,
-            handleException: true,
-            json: true,
-            maxsize: 5242880, // 5MB
-            maxFile: 5,
-            colorize: false,
-            timestamp: true
-        }),
-        new winston.transports.Console({
-            level: 'debug',
-            timestamp: true,
-            handleExceptions: true,
-            json: false,
-            colorize: true 
-        })
-    ],
-    exitOnError: false
-});
 
-logger.logRequestInfo = ( req, message ) => {
-   logger.info( `[${req.id}] ${req.method} ${req.originalUrl} - ${message}` );
-}
+var fileTransport = new winston.transports.File({
+                        level: 'info',
+                        filename: process.env.CARDSPACE_LOGFILE,
+                        handleException: true,
+                        json: true,
+                        maxsize: 5242880, // 5MB
+                        maxFile: 5,
+                        colorize: false,
+                        timestamp: true
+                    })
 
-logger.logRequestError = ( req, error ) => {
-    logger.error( `[${req.id}] ${req.method} ${req.originalUrl} - Error, ${ JSON.stringify( error ) }` );
-}
+var consoleTransport = new winston.transports.Console({
+                            level: 'debug',
+                            timestamp: true,
+                            handleExceptions: true,
+                            json: false,
+                            colorize: true 
+                        })
 
-module.exports = logger;
-module.exports.stream = {
-    write: ( message, encoding ) => {
-        logger.info( message );
+
+var testTransports = [ fileTransport ];
+var siteTransports = [ fileTransport, consoleTransport ];
+
+var logerFactory = ( transports ) => {
+
+    var logger = new winston.Logger({
+        transports: transports,
+        exitOnError: false
+    });
+
+    logger.logRequestInfo = ( req, message ) => {
+        logger.info( `[${req.id}] ${req.method} ${req.originalUrl} - ${message}` );
     }
+
+    logger.logRequestError = ( req, error ) => {
+        logger.error( `[${req.id}] ${req.method} ${req.originalUrl} - Error, ${ JSON.stringify( error ) }` );
+    }
+
+    logger.stream = {
+
+        write: ( message, encoding ) => {
+            logger.info( message );
+        }
+    }
+
+    return logger;
 }
+
+module.exports = (process.env.NODE_ENV !== 'test') 
+                     ? logerFactory( siteTransports )
+                     : logerFactory( testTransports );

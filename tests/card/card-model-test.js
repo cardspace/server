@@ -1,9 +1,7 @@
-require('dotenv').config();
-
-process.env[ 'CARDSPACE_LOGFILE' ] = './log/test-runs.log'; 
+require( '../test-environment-setup' );
 
 var expect = require( 'chai' ).expect;
-var Card = require( '../app/card/card-model' );
+var Card = require( '../../app/card/card-model' );
 
 
 describe( 'card model', () =>  {

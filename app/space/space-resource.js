@@ -68,7 +68,8 @@ router.delete( '/:id', ( req, res ) => {
                 commandParams: {
                     spaceId: req.params.id
                 },
-                repository: spaceServices.repository
+                spaceRepository: spaceServices.repository,
+                cardRepository: cardServices.repository
             }
 
     deleteSpaceCommand
