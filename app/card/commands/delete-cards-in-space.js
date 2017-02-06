@@ -11,11 +11,14 @@ module.exports = {
         //      repository:  card repository
         // }
 
-       request
-         .repository
-         .findBySpaceId( request.commandParams.spaceId )
-         .then( cards => cards.forEach( request.repository.remove ) )
-         ;
+        return request
+                .repository
+                .findBySpaceId( request.commandParams.spaceId )
+                .then( cards => { 
+                    cards.forEach( request.repository.remove ); 
+                    return cards 
+                } )
+                ;
          
 
     }

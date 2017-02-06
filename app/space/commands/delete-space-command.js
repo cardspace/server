@@ -20,10 +20,10 @@ const deleteCards = ( space, cardRepository ) => {
         repository: cardRepository
     }
 
-    deleteCardsInSpaceCommand
-        .deleteCardsInSpace( request );
-    
-    return space;
+    return deleteCardsInSpaceCommand
+            .deleteCardsInSpace( request )
+            .then( cards => { space, cards } ) ;
+
 }
 
 module.exports = {
@@ -45,7 +45,7 @@ module.exports = {
                 .findById( request.commandParams.spaceId  )
                 .then( space => space ? canDeleteSpace( space, request.userId ) : space )
                 .then( space => space ? deleteCards( space, request.cardRepository ) : space )
-                .then( space => space ? request.spaceRepository.remove( space ) : space )
+                .then( context => context ? request.spaceRepository.remove( contex.space ) : context )
                 ;
 
     }
