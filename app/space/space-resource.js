@@ -11,10 +11,15 @@ const cardDto = require( '../card/card-dto' );
 const deleteSpaceCommand = require( './commands/delete-space-command' );
 const updateSpaceCommand = require( './commands/update-space-command' );
 const addCardInSpaceCommand = require( './commands/add-card-in-space' );
+const changeSpaceStatusCommand = require( './commands/change-space-status-command' );
 
 const cardsInSpaceQuery = require( './queries/cards-in-space-query' );
 
 // resource: /v1/space/:id  - put, delete
+//           /v1/space/:id/completed   - put
+//           /v1/space/:id/active      - put 
+//           /v1/space/:id/cards       - get, post
+
 
 // todo: document each route so that it maked it simple when deubging.
 // todo: move createSummaryDto to a spaceDto module.
@@ -81,6 +86,47 @@ router.delete( '/:id', ( req, res ) => {
 
 } );
 
+router.put( '/:id/completed', ( req, res ) => {
+    logger.logRequestInfo( req, 'Started' );
+
+    const request
+            = {
+                userId: requestUser.getUserId( req ),
+                commandParams: { 
+                    spaceId: req.params.id
+                },
+                repository: spaceServices.repository
+            }
+
+    changeSpaceStatusCommand
+        .markSpaceAsComplete( request )
+        .then( space => space ? createSummaryDto( space ) : space )
+        .then( space => response.successOrNotFound( req, res, space ) )
+        .catch( error => response.invalidIdOrError( req, res, error ) )
+    
+})
+
+
+
+router.put( '/:id/activate', ( req, res ) => {
+    logger.logRequestInfo( req, 'Started' );
+
+    const request
+            = {
+                userId: requestUser.getUserId( req ),
+                commandParams: { 
+                    spaceId: req.params.id
+                },
+                repository: spaceServices.repository
+            }
+
+    changeSpaceStatusCommand
+        .markSpaceAsActive( request )
+        .then( space => space ? createSummaryDto( space ) : space )
+        .then( space => response.successOrNotFound( req, res, space ) )
+        .catch( error => response.invalidIdOrError( req, res, error ) )
+    
+})
 
 
 /* Create a card within a space.

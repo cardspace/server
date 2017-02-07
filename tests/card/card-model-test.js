@@ -38,8 +38,7 @@ describe( 'card model', () =>  {
   it( 'can be set to completed status', () => {
       var card = new Card();
 
-      card.title = 'A Title';
-      card.status = 'completed';
+      card.status = 'complete';
 
       card.validate( ( error ) => {
           expect( error.errors.status ).to.not.exist;
