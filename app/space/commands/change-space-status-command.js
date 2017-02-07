@@ -22,11 +22,9 @@ const createUpdateContext = ( space, status ) => {
 
 const updateSpaceStatus = ( repository, userId, spaceId, status ) => {
 
-    console.log( spaceId );
 
     return repository
             .findById( spaceId )
-            .then( space => { console.log( 'space', space ); return space; } )
             .then( space => space ? canUpdateSpaceStatus( space, userId ) : space )
             .then( space => space ? createUpdateContext( space, status ) : space )
             .then( context => context ? repository.update( context ) : context )
@@ -78,8 +76,6 @@ module.exports = {
         //                  status: complete 
         //              }
         //          }
-
-        console.log( 'request', request );
 
         return updateSpaceStatus( 
             request.repository,

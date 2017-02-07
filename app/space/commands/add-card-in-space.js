@@ -16,8 +16,7 @@ const createCard = ( request ) => {
     }
 
     return addCardCommand
-            .addCard( addCardRequest )
-            .then( card => { console.log( card ); return card }) ;
+            .addCard( addCardRequest );
 
 }
 
@@ -42,7 +41,6 @@ module.exports = {
         return request
                  .spaceRepository
                  .findById( request.commandParams.spaceId )
-                 .then( space => { console.log( 'space', space ); return space })
                  .then( space => space ? createCard( request ) : space )
 
     }

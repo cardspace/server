@@ -17,9 +17,9 @@ const cardsInSpaceQuery = require( './queries/cards-in-space-query' );
 const spaceQuery = require( './queries/space-query' );
 
 
-// resource: /v1/space/:id  - put, delete
+// resource: /v1/space/:id             - put, delete
 //           /v1/space/:id/completed   - put
-//           /v1/space/:id/active      - put 
+//           /v1/space/:id/activate    - put 
 //           /v1/space/:id/cards       - get, post
 
 
@@ -48,13 +48,10 @@ router.get( '/:id', ( req, res ) => {
               } 
             }
 
-    console.log( request );
 
     spaceQuery
       .getSpace( request )
-      .then( space => { console.log( space ); return space } )
       .then( space => space ? createSummaryDto( space ) : space )
-
       .then( space => response.successOrNotFound( req, res, space ) )
       .catch( error => response.invalidIdOrError( req, res, error ) );
 
@@ -81,7 +78,6 @@ router.put( '/:id', ( req, res ) => {
 
      updateSpaceCommand
         .updateSpace( request )
-        .then(  space => { console.log( 'space:', space  ); return space } )
         .then( space => space ? createSummaryDto( space ) : space )
         .then( space => response.successOrNotFound( req, res, space ) )
         .catch( error => response.invalidIdOrError( req, res, error ) )
@@ -132,8 +128,6 @@ router.put( '/:id/completed', ( req, res ) => {
         .catch( error => response.invalidIdOrError( req, res, error ) )
     
 })
-
-
 
 router.put( '/:id/activate', ( req, res ) => {
     logger.logRequestInfo( req, 'Started' );

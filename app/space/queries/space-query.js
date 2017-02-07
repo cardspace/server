@@ -16,11 +16,8 @@ module.exports = {
 
     getSpace( request ) {
 
-        console.log( 'getSpace' )
-
         return Space
                  .findById( request.queryParams.spaceId )
-                 .then( space => { console.log( space ); return space } )
                  .then( space => canViewSpace( space, request.userId ) )
                  ;
 

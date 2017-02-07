@@ -15,7 +15,6 @@ const factory = ( state ) => {
 const repository = repositoryBuilder( Card, ( context ) => context.card );
 
 repository.findBySpaceId = ( spaceId ) => {
-    console.log( 'findBySpaceId' )
     return Card.find( { inSpaceId: spaceId } )
 }
 

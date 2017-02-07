@@ -1,3 +1,5 @@
+const mongoose = require( 'mongoose' );
+
 module.exports = ( Model, contextModel ) => {
 
     return {
@@ -7,6 +9,7 @@ module.exports = ( Model, contextModel ) => {
         },
 
         findById ( id  ) {
+
             return Model.findById( id );
         },
 
