@@ -14,6 +14,8 @@ const addCardInSpaceCommand = require( './commands/add-card-in-space' );
 const changeSpaceStatusCommand = require( './commands/change-space-status-command' );
 
 const cardsInSpaceQuery = require( './queries/cards-in-space-query' );
+const spaceQuery = require( './queries/space-query' );
+
 
 // resource: /v1/space/:id  - put, delete
 //           /v1/space/:id/completed   - put
@@ -33,6 +35,31 @@ const createSummaryDto = ( space ) => {
         dateAdded: space.dataAdded
     }
 }
+
+
+router.get( '/:id', ( req, res ) => {
+    logger.logRequestInfo( req, 'Started' );
+
+    let request
+          = {
+              userId : requestUser.getUserId( req ),
+              queryParams: {
+                spaceId: req.params.id
+              } 
+            }
+
+    console.log( request );
+
+    spaceQuery
+      .getSpace( request )
+      .then( space => { console.log( space ); return space } )
+      .then( space => space ? createSummaryDto( space ) : space )
+
+      .then( space => response.successOrNotFound( req, res, space ) )
+      .catch( error => response.invalidIdOrError( req, res, error ) );
+
+});
+
 
 
 router.put( '/:id', ( req, res ) => {

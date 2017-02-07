@@ -15,4 +15,5 @@ module.exports = {
     
     notAllowedToUpdateSpace : { code: 00007, message: "The user does not have permission to update the space." },
     notAllowedToDeleteSpace : { code: 00008, message: "The user does not have permission to delete the space." },
+    notAllowedToViewSpace : { code: 00009, message: "The user does not have permission to veiw the space." },
 }
