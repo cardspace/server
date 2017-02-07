@@ -38,8 +38,10 @@ router.get( '/', ( req, res ) => {
     let request 
           = {
               userId:  requestUser.getUserId( req ),
+              queryParams: {
+                  status: req.query.status
+              }
           }
-
 
     spacesOwnedByUserQuery
         .getSpaces( request )
